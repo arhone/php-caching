@@ -1,0 +1,13 @@
+{
+    "name": "arhone/cache",
+    "description": "Работа с кешем в PHP",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Алексей Арх",
+            "email": "info@arh.one"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
