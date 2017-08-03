@@ -1,5 +1,5 @@
 <?php
-namespace arh\cache;
+namespace arhone\cache;
 interface Cache {
 
     /**

@@ -1,5 +1,5 @@
 <?php
-namespace arh\cache;
+namespace arhone\cache;
 
 /**
  * Работа с кешем
@@ -184,7 +184,7 @@ class CacheFile implements Cache {
 
     /**
      * Задаёт конфигурацию
-     * 
+     *
      * @param array $config
      */
     public function config (array $config) {

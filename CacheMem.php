@@ -1,5 +1,5 @@
 <?php
-namespace arh\cache;
+namespace arhone\cache;
 
 /**
  * Работа с кешем
@@ -63,7 +63,7 @@ class CacheMem implements Cache {
 
     /**
      * Задаёт конфигурацию
-     * 
+     *
      * @param array $config
      */
     public function config (array $config) {}
