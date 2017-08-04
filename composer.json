@@ -1,13 +1,23 @@
 {
     "name": "arhone/cache",
-    "description": "Работа с кешем в PHP",
+    "description": "абота с кешем в PHP",
+    "homepage": "https://github.com/arhone/cache",
     "type": "library",
+    "license": "MIT",
     "authors": [
         {
             "name": "Алексей Арх",
             "email": "info@arh.one"
         }
     ],
-    "minimum-stability": "dev",
-    "require": {}
+    "autoload": {
+        "psr-0": {
+            "arhone\\cache\\": ""
+        }
+    },
+    "target-dir": "arhone/cache",
+    "minimum-stability": "stable",
+    "require": {
+        "php": "^7.0"
+    }
 }
