@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 namespace arhone\cache;
 
 /**
@@ -42,7 +42,7 @@ class CacheFile implements Cache {
      *
      * @param string $key
      * @param int|null $interval
-     * @return bool
+     * @return mixed
      */
     public function get (string $key, int $interval = null) {
 
@@ -164,7 +164,7 @@ class CacheFile implements Cache {
      * @param string $key
      * @return string
      */
-    private function getPath (string $key) {
+    protected function getPath (string $key) {
 
         $path = $this->config['cache_dir'] . DIRECTORY_SEPARATOR . str_replace('.', DIRECTORY_SEPARATOR, $key);
         if (is_dir($path) || is_file($path)) {
@@ -186,10 +186,11 @@ class CacheFile implements Cache {
      * Задаёт конфигурацию
      *
      * @param array $config
+     * @return array
      */
-    public function config (array $config) {
+    public function config (array $config) : array {
 
-        $this->config = array_merge($this->config, $config);
+        return $this->config = array_merge($this->config, $config);
 
     }
 

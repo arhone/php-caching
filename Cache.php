@@ -24,7 +24,6 @@ interface Cache {
      * Удаление кеша
      *
      * @param string $key
-     * @return mixed
      */
     public function delete (string $key);
 
@@ -32,8 +31,8 @@ interface Cache {
      * Задаёт конфигурацию
      *
      * @param array $config
-     * @return mixed
+     * @return array
      */
-    public function config (array $config);
+    public function config (array $config) : array ;
         
 }

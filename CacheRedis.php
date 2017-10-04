@@ -93,8 +93,9 @@ class CacheRedis implements Cache {
      * Задаёт конфигурацию
      *
      * @param array $config
+     * @return array
      */
-    public function config (array $config) {
+    public function config (array $config) : array {
 
         $this->config = array_merge($this->config, $config);
 
