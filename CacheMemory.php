@@ -5,7 +5,7 @@ namespace arhone\cache;
  * Работа с кешем
  *
  * Class CacheMemory
- * @package arh\cache
+ * @package arhone\cache
  */
 class CacheMemory implements Cache {
 

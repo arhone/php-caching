@@ -3,9 +3,9 @@ namespace arhone\cache;
 
 /**
  * Работа с кешем
- * 
+ *
  * Class CacheFile
- * @package arh\cache
+ * @package arhone\cache
  */
 class CacheFile implements Cache {
 

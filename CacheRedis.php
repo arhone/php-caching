@@ -3,6 +3,9 @@ namespace arhone\cache;
 
 /**
  * Работа с кэшем
+ *
+ * Class CacheRedis
+ * @package arhone\cache
  */
 class CacheRedis implements Cache {
 
