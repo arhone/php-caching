@@ -14,7 +14,9 @@ class CacheMemory implements Cache {
      *
      * @var array
      */
-    protected $config = [];
+    protected $config = [
+        'status' => true
+    ];
 
     protected $Memcached;
 
@@ -38,6 +40,10 @@ class CacheMemory implements Cache {
      */
     public function get (string $key, int $time = null) {
 
+        if (!$this->config['status']) {
+            return false;
+        }
+
         return gzdecode($this->Memcached->get($key), 9);
 
     }
@@ -51,6 +57,10 @@ class CacheMemory implements Cache {
      * @return int
      */
     public function set (string $key, $data, int $interval = null) : int {
+
+        if (!$this->config['status']) {
+            return false;
+        }
 
         return (int)$this->Memcached->set($key, gzencode($data, 9), MEMCACHE_COMPRESSED, $interval);
 

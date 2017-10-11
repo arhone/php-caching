@@ -14,7 +14,9 @@ class CacheRedis implements Cache {
      *
      * @var array
      */
-    protected $config = [];
+    protected $config = [
+        'status' => true,
+    ];
 
     protected $Redis;
 
@@ -40,6 +42,10 @@ class CacheRedis implements Cache {
      * @return bool
      */
     public function get (string $key, int $interval = null) {
+
+        if (!$this->config['status']) {
+            return false;
+        }
 
         $data = unserialize($this->Redis->get($key));
 
@@ -68,6 +74,10 @@ class CacheRedis implements Cache {
      * @return bool
      */
     public function set (string $key, $data, int $interval = null) {
+
+        if (!$this->config['status']) {
+            return false;
+        }
 
         $data = [
             'created' => time(),

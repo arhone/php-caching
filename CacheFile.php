@@ -15,16 +15,8 @@ class CacheFile implements Cache {
      * @var array
      */
     protected $config = [
-        'cache_dir' => '/cache', // Директория для кеширования файлов
-        'language'  => 'ru'
-    ];
-
-    /**
-     * @var array
-     */
-    public static $count = [
-        'get' => 0,
-        'set' => 0
+        'status'    => true,
+        'directory' => __DIR__ . '/../../../cache'
     ];
 
     /**
@@ -46,11 +38,14 @@ class CacheFile implements Cache {
      */
     public function get (string $key, int $interval = null) {
 
+        if (!$this->config['status']) {
+            return false;
+        }
+
         $path = $this->getPath($key);
 
         if (is_file($path)) {
 
-            self::$count['get']++; // Счётчик загруженых файлов
             $data = unserialize(file_get_contents($path));
 
             if (!empty($data['remove']) && $data['remove'] < time()) {
@@ -83,6 +78,10 @@ class CacheFile implements Cache {
      */
     public function set (string $key, $data, int $interval = null) {
 
+        if (!$this->config['status']) {
+            return false;
+        }
+
         $path = $this->getPath($key);
         $dir = dirname($path);
 
@@ -92,7 +91,6 @@ class CacheFile implements Cache {
 
         }
 
-        self::$count['get']++; // Счётчик записанных файлов
         $data = [
             'created' => time(),
             'remove'  => $interval ? time() + $interval : null,
@@ -166,7 +164,8 @@ class CacheFile implements Cache {
      */
     protected function getPath (string $key) {
 
-        $path = $this->config['cache_dir'] . DIRECTORY_SEPARATOR . str_replace('.', DIRECTORY_SEPARATOR, $key);
+        $path = $this->config['directory'] . DIRECTORY_SEPARATOR . str_replace('.', DIRECTORY_SEPARATOR, $key);
+
         if (is_dir($path) || is_file($path)) {
 
             return $path;
@@ -175,7 +174,7 @@ class CacheFile implements Cache {
 
             $dir  = dirname($path);
             $hash = md5(basename($path));
-            return $dir . DIRECTORY_SEPARATOR . '.' . $hash[0] . $hash[1] . DIRECTORY_SEPARATOR . '.' . $hash[2] . $hash[3] . DIRECTORY_SEPARATOR . '.' . $hash . DIRECTORY_SEPARATOR . '.' . $this->config['language'];
+            return $dir . DIRECTORY_SEPARATOR . '.' . $hash[0] . $hash[1] . DIRECTORY_SEPARATOR . '.' . $hash[2] . $hash[3] . DIRECTORY_SEPARATOR . '.' . $hash;
 
         }
 
