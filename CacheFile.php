@@ -74,9 +74,9 @@ class CacheFile implements Cache {
      * @param string $key
      * @param $data
      * @param int|null $interval
-     * @return bool|int
+     * @return bool
      */
-    public function set (string $key, $data, int $interval = null) {
+    public function set (string $key, $data, int $interval = null) : bool {
 
         if (!$this->config['status']) {
             return false;
@@ -96,7 +96,18 @@ class CacheFile implements Cache {
             'remove'  => $interval ? time() + $interval : null,
             'data'    => $data
         ];
-        return file_put_contents($path, serialize($data), LOCK_EX);
+        return file_put_contents($path, serialize($data), LOCK_EX) == true;
+
+    }
+
+    /**
+     * Очистка кеша
+     *
+     * @return bool
+     */
+    public function clear () : bool {
+
+        return $this->deleteRecursive($this->config['directory']);
 
     }
 
@@ -106,10 +117,9 @@ class CacheFile implements Cache {
      * @param string $key
      * @return bool
      */
-    public function delete (string $key) {
+    public function delete (string $key) : bool {
 
-        $path = $this->getPath($key);
-        return $this->deleteRecursive($path);
+        return $this->deleteRecursive($this->getPath($key));
 
     }
 
@@ -119,7 +129,7 @@ class CacheFile implements Cache {
      * @param $path
      * @return bool
      */
-    function deleteRecursive ($path) {
+    function deleteRecursive ($path) : bool {
 
         if (is_dir($path)) {
 
@@ -162,7 +172,7 @@ class CacheFile implements Cache {
      * @param string $key
      * @return string
      */
-    protected function getPath (string $key) {
+    protected function getPath (string $key) : string {
 
         $path = $this->config['directory'] . DIRECTORY_SEPARATOR . str_replace('.', DIRECTORY_SEPARATOR, $key);
 

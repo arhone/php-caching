@@ -73,7 +73,7 @@ class CacheRedis implements Cache {
      * @param int|null $interval
      * @return bool
      */
-    public function set (string $key, $data, int $interval = null) {
+    public function set (string $key, $data, int $interval = null) : bool {
 
         if (!$this->config['status']) {
             return false;
@@ -84,7 +84,19 @@ class CacheRedis implements Cache {
             'remove'  => $interval ? time() + $interval : null,
             'data'    => $data
         ];
-        return $this->Redis->set($key, serialize($data));
+        return $this->Redis->set($key, serialize($data)) == true;
+
+    }
+
+
+    /**
+     * Очищает кеш
+     *
+     * @return bool
+     */
+    public function clear () : bool {
+
+        return $this->Redis->flushAll() == true;
 
     }
 
@@ -92,8 +104,9 @@ class CacheRedis implements Cache {
      * Удаление кеша
      *
      * @param string $key
+     * @return bool
      */
-    public function delete (string $key) {
+    public function delete (string $key) : bool {
 
         $this->Redis->delete($key);
         foreach ($this->Redis->keys($key . '.*') as $key) {

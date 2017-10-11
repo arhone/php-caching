@@ -16,16 +16,24 @@ interface Cache {
      *
      * @param string $key
      * @param $data
-     * @return mixed
+     * @return bool
      */
-    public function set (string $key, $data);
+    public function set (string $key, $data) : bool ;
 
     /**
      * Удаление кеша
      *
      * @param string $key
+     * @return bool
      */
-    public function delete (string $key);
+    public function delete (string $key) : bool ;
+
+    /**
+     * Очистка всего кеша
+     *
+     * @return bool
+     */
+    public function clear () : bool;
 
     /**
      * Задаёт конфигурацию
@@ -33,6 +41,6 @@ interface Cache {
      * @param array $config
      * @return array
      */
-    public function config (array $config) : array ;
+    public function config (array $config) : array;
         
 }

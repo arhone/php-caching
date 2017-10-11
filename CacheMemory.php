@@ -36,7 +36,7 @@ class CacheMemory implements Cache {
      *
      * @param string $key
      * @param int|null $time
-     * @return string
+     * @return mixed
      */
     public function get (string $key, int $time = null) {
 
@@ -54,26 +54,38 @@ class CacheMemory implements Cache {
      * @param string $key
      * @param $data
      * @param int|null $interval
-     * @return int
+     * @return bool
      */
-    public function set (string $key, $data, int $interval = null) : int {
+    public function set (string $key, $data, int $interval = null) : bool {
 
         if (!$this->config['status']) {
             return false;
         }
 
-        return (int)$this->Memcached->set($key, gzencode($data, 9), MEMCACHE_COMPRESSED, $interval);
+        return $this->Memcached->set($key, gzencode($data, 9), MEMCACHE_COMPRESSED, $interval) == true;
+
+    }
+
+    /**
+     * Очистка кеша
+     *
+     * @return bool
+     */
+    public function clear () : bool {
+
+        return $this->Memcached->flush();
 
     }
 
     /**
      * Удаление кеша
      *
-     * @param string $key
+     * @param string|null $key
+     * @return bool
      */
-    public function delete (string $key = '') {
+    public function delete (string $key = null) : bool {
 
-        $this->Memcached->set($key, false);
+        return $this->Memcached->set($key, false);
 
     }
 
@@ -83,7 +95,7 @@ class CacheMemory implements Cache {
      * @param array $config
      * @return array
      */
-    public function config (array $config) {
+    public function config (array $config) : array {
 
         return $this->config = array_merge($this->config, $config);
 
