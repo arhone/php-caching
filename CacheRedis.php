@@ -7,7 +7,7 @@ namespace arhone\cache;
  * Class CacheRedis
  * @package arhone\cache
  */
-class CacheRedis implements Cache {
+class CacheRedis implements CacheInterface {
 
     /**
      * Настройки класса

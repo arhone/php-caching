@@ -7,7 +7,7 @@ namespace arhone\cache;
  * Class CacheMemory
  * @package arhone\cache
  */
-class CacheMemory implements Cache {
+class CacheMemory implements CacheInterface {
 
     /**
      * Настройки класса
