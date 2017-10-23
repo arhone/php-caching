@@ -15,7 +15,10 @@
             "arhone\\cache\\": ""
         },
         "classmap": [
-            "Cache.php"
+            "CacheInterface.php",
+            "CacheFile.php",
+            "CacheRedis.php",
+            "CacheMemory.php"
         ]
     },
     "minimum-stability": "stable",
