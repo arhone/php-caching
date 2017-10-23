@@ -32,19 +32,42 @@ class CacheMemory implements CacheInterface {
     }
 
     /**
+     * Проверяет и включает/отключат кеш
+     *
+     * @param bool $status
+     * @return mixed
+     */
+    public function status (bool $status = null) {
+
+        if ($status !== null) {
+            $this->config['status'] = $status == true;
+        }
+
+        return $this->config['status'];
+
+    }
+
+    /**
      * Возвращает значение кэша
      *
      * @param string $key
-     * @param int|null $time
      * @return mixed
      */
-    public function get (string $key, int $time = null) {
+    public function get (string $key) {
 
-        if (!$this->config['status']) {
+        if (!$this->status()) {
             return false;
         }
 
-        return gzdecode($this->Memcached->get($key), 9);
+        $data = unserialize($this->Memcached->get($key));
+
+        if (!empty($data['remove']) && $data['remove'] < time()) {
+
+            return false;
+
+        }
+
+        return $data['data'] ?? null;
 
     }
 
@@ -58,22 +81,11 @@ class CacheMemory implements CacheInterface {
      */
     public function set (string $key, $data, int $interval = null) : bool {
 
-        if (!$this->config['status']) {
+        if (!$this->status()) {
             return false;
         }
 
         return $this->Memcached->set($key, gzencode($data, 9), MEMCACHE_COMPRESSED, $interval) == true;
-
-    }
-
-    /**
-     * Очистка кеша
-     *
-     * @return bool
-     */
-    public function clear () : bool {
-
-        return $this->Memcached->flush();
 
     }
 
@@ -86,6 +98,29 @@ class CacheMemory implements CacheInterface {
     public function delete (string $key = null) : bool {
 
         return $this->Memcached->set($key, false);
+
+    }
+
+    /**
+     * Удаление кеша
+     *
+     * @param string|null $key
+     * @return bool
+     */
+    public function has (string $key = null) : bool {
+
+        return !empty($this->Memcached->get($key));
+
+    }
+
+    /**
+     * Очистка кеша
+     *
+     * @return bool
+     */
+    public function clear () : bool {
+
+        return $this->Memcached->flush();
 
     }
 

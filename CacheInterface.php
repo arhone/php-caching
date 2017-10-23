@@ -10,13 +10,12 @@ namespace arhone\cache;
 interface CacheInterface {
 
     /**
-     * Возвращает значение кеша
+     * Проверяет и включает/отключат кеш
      *
-     * @param string $key
-     * @param int|null $interval
+     * @param bool $status
      * @return mixed
      */
-    public function get (string $key, int $interval = null);
+    public function status (bool $status = null);
 
     /**
      * Записывает кеш в файл
@@ -27,6 +26,22 @@ interface CacheInterface {
      * @return bool
      */
     public function set (string $key, $data, int $interval = null) : bool ;
+
+    /**
+     * Возвращает значение кеша
+     *
+     * @param string $key
+     * @return mixed
+     */
+    public function get (string $key);
+
+    /**
+     * Проверяет существует ли ключ
+     *
+     * @param string $key
+     * @return mixed
+     */
+    public function has (string $key);
 
     /**
      * Удаление кеша

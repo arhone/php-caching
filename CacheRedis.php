@@ -35,15 +35,30 @@ class CacheRedis implements CacheInterface {
     }
 
     /**
+     * Проверяет и включает/отключат кеш
+     *
+     * @param bool $status
+     * @return mixed
+     */
+    public function status (bool $status = null) {
+
+        if ($status !== null) {
+            $this->config['status'] = $status == true;
+        }
+
+        return $this->config['status'];
+
+    }
+
+    /**
      * Возвращает значение кэша
      *
      * @param string $key
-     * @param int|null $interval
      * @return bool
      */
-    public function get (string $key, int $interval = null) {
+    public function get (string $key) {
 
-        if (!$this->config['status']) {
+        if (!$this->status()) {
             return false;
         }
 
@@ -55,13 +70,7 @@ class CacheRedis implements CacheInterface {
 
         }
 
-        if ($interval && !empty($data['created']) && $data['created'] < time() - $interval) {
-
-            return false;
-
-        }
-
-        return $data['data'] ?? false;
+        return $data['data'] ?? null;
 
     }
 
@@ -75,7 +84,7 @@ class CacheRedis implements CacheInterface {
      */
     public function set (string $key, $data, int $interval = null) : bool {
 
-        if (!$this->config['status']) {
+        if (!$this->status()) {
             return false;
         }
 
@@ -88,6 +97,36 @@ class CacheRedis implements CacheInterface {
 
     }
 
+    /**
+     * Удаление кеша
+     *
+     * @param string $key
+     * @return bool
+     */
+    public function delete (string $key) : bool {
+
+        $result = false;
+        $this->Redis->delete($key);
+        foreach ($this->Redis->keys($key . '.*') as $key) {
+            $this->Redis->delete($key);
+            $result = true;
+        }
+
+        return $result;
+
+    }
+
+    /**
+     * Проверяет существование ключа
+     *
+     * @param string $key
+     * @return bool
+     */
+    public function has (string $key) : bool {
+
+        return $this->Redis->exists($key);
+
+    }
 
     /**
      * Очищает кеш
@@ -101,21 +140,6 @@ class CacheRedis implements CacheInterface {
     }
 
     /**
-     * Удаление кеша
-     *
-     * @param string $key
-     * @return bool
-     */
-    public function delete (string $key) : bool {
-
-        $this->Redis->delete($key);
-        foreach ($this->Redis->keys($key . '.*') as $key) {
-            $this->Redis->delete($key);
-        }
-
-    }
-
-    /**
      * Задаёт конфигурацию
      *
      * @param array $config
@@ -123,7 +147,7 @@ class CacheRedis implements CacheInterface {
      */
     public function config (array $config) : array {
 
-        $this->config = array_merge($this->config, $config);
+        return $this->config = array_merge($this->config, $config);
 
     }
 
