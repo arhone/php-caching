@@ -6,6 +6,7 @@ namespace arhone\cache;
  *
  * Interface CacheInterface
  * @package arhone\cache
+ * @author Алексей Арх <info@arh.one>
  */
 interface CacheInterface {
 

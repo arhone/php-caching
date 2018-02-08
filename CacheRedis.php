@@ -6,6 +6,7 @@ namespace arhone\cache;
  *
  * Class CacheRedis
  * @package arhone\cache
+ * @author Алексей Арх <info@arh.one>
  */
 class CacheRedis implements CacheInterface {
 

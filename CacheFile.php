@@ -6,6 +6,7 @@ namespace arhone\cache;
  *
  * Class CacheFile
  * @package arhone\cache
+ * @author Алексей Арх <info@arh.one>
  */
 class CacheFile implements CacheInterface {
 
