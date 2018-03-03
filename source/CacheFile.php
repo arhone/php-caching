@@ -6,6 +6,7 @@ namespace arhone\cache;
  *
  * Class CacheFile
  * @package arhone\cache
+ * @author Алексей Арх <info@arh.one>
  */
 class CacheFile implements CacheInterface {
 
@@ -16,7 +17,7 @@ class CacheFile implements CacheInterface {
      */
     protected $config = [
         'status'    => true,
-        'directory' => __DIR__ . '/../../../cache'
+        'directory' => __DIR__ . '/cache'
     ];
 
     /**
@@ -30,15 +31,30 @@ class CacheFile implements CacheInterface {
     }
 
     /**
+     * Проверяет и включает/отключат кеш
+     *
+     * @param bool $status
+     * @return mixed
+     */
+    public function status (bool $status = null) {
+
+        if ($status !== null) {
+            $this->config['status'] = $status == true;
+        }
+
+        return $this->config['status'];
+
+    }
+
+    /**
      * Возвращает значение кэша
      *
      * @param string $key
-     * @param int|null $interval
      * @return mixed
      */
-    public function get (string $key, int $interval = null) {
+    public function get (string $key) {
 
-        if (!$this->config['status']) {
+        if (!$this->status()) {
             return false;
         }
 
@@ -54,17 +70,11 @@ class CacheFile implements CacheInterface {
 
             }
 
-            if ($interval && !empty($data['created']) && $data['created'] < time() - $interval) {
-
-                return false;
-
-            }
-
             return $data['data'] ?? false;
 
         }
 
-        return false;
+        return null;
 
     }
 
@@ -78,7 +88,7 @@ class CacheFile implements CacheInterface {
      */
     public function set (string $key, $data, int $interval = null) : bool {
 
-        if (!$this->config['status']) {
+        if (!$this->status()) {
             return false;
         }
 
@@ -101,17 +111,6 @@ class CacheFile implements CacheInterface {
     }
 
     /**
-     * Очистка кеша
-     *
-     * @return bool
-     */
-    public function clear () : bool {
-
-        return $this->deleteRecursive($this->config['directory']);
-
-    }
-
-    /**
      * Удаление кеша
      *
      * @param string $key
@@ -120,6 +119,29 @@ class CacheFile implements CacheInterface {
     public function delete (string $key) : bool {
 
         return $this->deleteRecursive($this->getPath($key));
+
+    }
+
+    /**
+     * Проверка ключа
+     *
+     * @param string $key
+     * @return bool
+     */
+    public function has (string $key) : bool {
+
+        return !empty($this->getPath($key));
+
+    }
+
+    /**
+     * Очистка кеша
+     *
+     * @return bool
+     */
+    public function clear () : bool {
+
+        return $this->deleteRecursive($this->config['directory']);
 
     }
 
