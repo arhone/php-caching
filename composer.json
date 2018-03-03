@@ -13,13 +13,7 @@
     "autoload": {
         "psr-4": {
             "arhone\\cache\\": "source/"
-        },
-        "classmap": [
-            "CacheInterface.php",
-            "CacheFile.php",
-            "CacheRedis.php",
-            "CacheMemory.php"
-        ]
+        }
     },
     "minimum-stability": "stable",
     "require": {
