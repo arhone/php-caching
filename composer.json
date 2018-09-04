@@ -1,7 +1,7 @@
 {
-    "name": "arhone/cache",
-    "description": "Работы с кешем (PHP 7)",
-    "homepage": "https://github.com/arhone/cache",
+    "name": "arhone/caching",
+    "description": "Библиотека для работы с кэшем (PHP 7)",
+    "homepage": "https://github.com/arhone/caching",
     "type": "library",
     "license": "MIT",
     "authors": [
@@ -12,7 +12,7 @@
     ],
     "autoload": {
         "psr-4": {
-            "arhone\\cache\\": "source/"
+            "arhone\\caching\\": "source/"
         },
         "classmap": ["source/"]
     },
