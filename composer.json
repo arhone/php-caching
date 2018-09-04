@@ -16,7 +16,7 @@
         },
         "classmap": ["source/"]
     },
-    "minimum-stability": "stable",
+    "minimum-stability": "dev",
     "require": {
         "ext-zlib": "*",
         "ext-memcached": "*",
