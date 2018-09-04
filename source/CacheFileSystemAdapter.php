@@ -16,34 +16,34 @@ class CacheFileSystemAdapter implements CacheInterface {
      *
      * @var array
      */
-    protected $config = [
-        'status'    => true,
+    protected $configuration = [
+        'state'     => true,
         'directory' => __DIR__ . '/cache'
     ];
 
     /**
-     * CacheFile constructor.
-     * @param array $config
+     * CacheFileSystemAdapter constructor.
+     * @param array $configuration
      */
-    public function __construct (array $config = []) {
+    public function __construct (array $configuration = []) {
 
-        $this->config($config);
+        
 
     }
 
     /**
      * Проверяет и включает/отключат кеш
      *
-     * @param bool $status
-     * @return mixed
+     * @param bool $state
+     * @return bool
      */
-    public function status (bool $status = null) {
+    protected function getState (bool $state = null) : bool {
 
-        if ($status !== null) {
-            $this->config['status'] = $status == true;
+        if ($state !== null) {
+            $this->configuration['state'] = $state == true;
         }
 
-        return $this->config['status'];
+        return ($this->configuration['state'] ?? false) == true;
 
     }
 
@@ -55,7 +55,7 @@ class CacheFileSystemAdapter implements CacheInterface {
      */
     public function get (string $key) {
 
-        if (!$this->status()) {
+        if (!$this->getState()) {
             return false;
         }
 
@@ -89,7 +89,7 @@ class CacheFileSystemAdapter implements CacheInterface {
      */
     public function set (string $key, $data, int $interval = null) : bool {
 
-        if (!$this->status()) {
+        if (!$this->getState()) {
             return false;
         }
 
@@ -107,6 +107,7 @@ class CacheFileSystemAdapter implements CacheInterface {
             'remove'  => $interval ? time() + $interval : null,
             'data'    => $data
         ];
+        
         return file_put_contents($path, serialize($data), LOCK_EX) == true;
 
     }
@@ -119,7 +120,7 @@ class CacheFileSystemAdapter implements CacheInterface {
      */
     public function delete (string $key) : bool {
 
-        return $this->deleteRecursive($this->getPath($key));
+        return $this->deleteRecursive($this->getPath($key)) == true;
 
     }
 
@@ -137,12 +138,12 @@ class CacheFileSystemAdapter implements CacheInterface {
 
     /**
      * Очистка кеша
-     *
+     * 
      * @return bool
      */
     public function clear () : bool {
 
-        return $this->deleteRecursive($this->config['directory']);
+        return $this->deleteRecursive($this->configuration['directory']) == true;
 
     }
 
@@ -152,7 +153,7 @@ class CacheFileSystemAdapter implements CacheInterface {
      * @param $path
      * @return bool
      */
-    function deleteRecursive ($path) : bool {
+    protected function deleteRecursive ($path) : bool {
 
         if (is_dir($path)) {
 
@@ -197,7 +198,7 @@ class CacheFileSystemAdapter implements CacheInterface {
      */
     protected function getPath (string $key) : string {
 
-        $path = $this->config['directory'] . DIRECTORY_SEPARATOR . str_replace('.', DIRECTORY_SEPARATOR, $key);
+        $path = $this->configuration['directory'] . DIRECTORY_SEPARATOR . str_replace('.', DIRECTORY_SEPARATOR, $key);
 
         if (is_dir($path) || is_file($path)) {
 
@@ -216,13 +217,13 @@ class CacheFileSystemAdapter implements CacheInterface {
 
     /**
      * Задаёт конфигурацию
-     *
-     * @param array $config
+     * 
+     * @param array $configuration
      * @return array
      */
-    public function config (array $config) : array {
+    public function configure (array $configuration = []) : array {
 
-        return $this->config = array_merge($this->config, $config);
+        return $this->configuration = array_merge($this->configuration, $configuration);
 
     }
 

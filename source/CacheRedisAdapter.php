@@ -16,39 +16,41 @@ class CacheRedisAdapter implements CacheInterface {
      *
      * @var array
      */
-    protected $config = [
-        'status' => true,
+    protected $configuration = [
+        'state' => true,
     ];
 
+    /**
+     * @var \Redis 
+     */
     protected $Redis;
 
     /**
-     * Cache constructor.
-     *
-     * CacheRedis constructor.
+     * CacheRedisAdapter constructor.
      * @param \Redis $Redis
-     * @param array $config
+     * @param array $configuration
      */
-    public function __construct (\Redis $Redis, array $config = []) {
+    public function __construct (\Redis $Redis, array $configuration = []) {
 
         $this->Redis = $Redis;
-        $this->config($config);
+
+        $this->configure($configuration);
 
     }
 
     /**
      * Проверяет и включает/отключат кеш
      *
-     * @param bool $status
-     * @return mixed
+     * @param bool $state
+     * @return bool
      */
-    public function status (bool $status = null) {
+    protected function getState (bool $state = null) : bool {
 
-        if ($status !== null) {
-            $this->config['status'] = $status == true;
+        if ($state !== null) {
+            $this->configuration['state'] = $state == true;
         }
 
-        return $this->config['status'];
+        return ($this->configuration['state'] ?? false) == true;
 
     }
 
@@ -60,7 +62,7 @@ class CacheRedisAdapter implements CacheInterface {
      */
     public function get (string $key) {
 
-        if (!$this->status()) {
+        if (!$this->getState()) {
             return false;
         }
 
@@ -86,7 +88,7 @@ class CacheRedisAdapter implements CacheInterface {
      */
     public function set (string $key, $data, int $interval = null) : bool {
 
-        if (!$this->status()) {
+        if (!$this->getState()) {
             return false;
         }
 
@@ -144,12 +146,12 @@ class CacheRedisAdapter implements CacheInterface {
     /**
      * Задаёт конфигурацию
      *
-     * @param array $config
+     * @param array $configuration
      * @return array
      */
-    public function config (array $config) : array {
+    public function configure (array $configuration = []) : array {
 
-        return $this->config = array_merge($this->config, $config);
+        return $this->configuration = array_merge($this->configuration, $configuration);
 
     }
 

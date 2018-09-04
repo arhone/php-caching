@@ -21,6 +21,6 @@
         "ext-zlib": "*",
         "ext-memcached": "*",
         "ext-redis": "*",
-        "php": "^7.0"
+        "php": ">=7.1"
     }
 }

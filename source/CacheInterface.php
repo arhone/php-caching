@@ -12,14 +12,6 @@ namespace arhone\caching;
 interface CacheInterface {
 
     /**
-     * Проверяет и включает/отключат кеш
-     *
-     * @param bool $status
-     * @return mixed
-     */
-    public function status (bool $status = null);
-
-    /**
      * Записывает кеш в файл
      *
      * @param string $key
@@ -27,7 +19,7 @@ interface CacheInterface {
      * @param int|null $interval
      * @return bool
      */
-    public function set (string $key, $data, int $interval = null) : bool ;
+    public function set (string $key, $data, int $interval = null) : bool;
 
     /**
      * Возвращает значение кеша
@@ -41,9 +33,9 @@ interface CacheInterface {
      * Проверяет существует ли ключ
      *
      * @param string $key
-     * @return mixed
+     * @return bool
      */
-    public function has (string $key);
+    public function has (string $key) : bool;
 
     /**
      * Удаление кеша
@@ -51,7 +43,7 @@ interface CacheInterface {
      * @param string $key
      * @return bool
      */
-    public function delete (string $key) : bool ;
+    public function delete (string $key) : bool;
 
     /**
      * Очистка всего кеша
@@ -63,9 +55,9 @@ interface CacheInterface {
     /**
      * Задаёт конфигурацию
      *
-     * @param array $config
+     * @param array $configuration
      * @return array
      */
-    public function config (array $config) : array;
-        
+    public function configure (array $configuration = []) : array;
+
 }

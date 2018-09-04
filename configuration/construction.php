@@ -5,7 +5,7 @@ return [
         'class' => 'arhone\caching\CacheFileSystemAdapter',
         'construct' => [
             ['array' => [
-                'status'    => false,
+                'state'     => false,
                 'directory' => __DIR__ . '/../../../../cache'
             ]]
         ]

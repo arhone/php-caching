@@ -15,36 +15,42 @@ class CacheMemcachedAdapter implements CacheInterface {
      *
      * @var array
      */
-    protected $config = [
-        'status' => true
+    protected $configuration = [
+        'state' => true
     ];
 
+    /**
+     * @var \Memcached
+     */
     protected $Memcached;
 
     /**
-     * CacheMem constructor.
+     * CacheMemcachedAdapter constructor.
      * @param \Memcached $Memcached
+     * @param array $configuration
      */
-    public function __construct (\Memcached $Memcached) {
+    public function __construct (\Memcached $Memcached, array $configuration = []) {
 
         $this->Memcached = $Memcached;
         $Memcached->setCompressThreshold(0, 1);
+
+        $this->configure($configuration);
 
     }
 
     /**
      * Проверяет и включает/отключат кеш
      *
-     * @param bool $status
-     * @return mixed
+     * @param bool $state
+     * @return bool
      */
-    public function status (bool $status = null) {
+    protected function getState (bool $state = null) : bool {
 
-        if ($status !== null) {
-            $this->config['status'] = $status == true;
+        if ($state !== null) {
+            $this->configuration['state'] = $state == true;
         }
 
-        return $this->config['status'];
+        return ($this->configuration['state'] ?? false) == true;
 
     }
 
@@ -56,7 +62,7 @@ class CacheMemcachedAdapter implements CacheInterface {
      */
     public function get (string $key) {
 
-        if (!$this->status()) {
+        if (!$this->getState()) {
             return false;
         }
 
@@ -82,7 +88,7 @@ class CacheMemcachedAdapter implements CacheInterface {
      */
     public function set (string $key, $data, int $interval = null) : bool {
 
-        if (!$this->status()) {
+        if (!$this->getState()) {
             return false;
         }
 
@@ -98,7 +104,7 @@ class CacheMemcachedAdapter implements CacheInterface {
      */
     public function delete (string $key = null) : bool {
 
-        return $this->Memcached->set($key, false);
+        return $this->Memcached->set($key, false) == true;
 
     }
 
@@ -121,19 +127,19 @@ class CacheMemcachedAdapter implements CacheInterface {
      */
     public function clear () : bool {
 
-        return $this->Memcached->flush();
+        return $this->Memcached->flush() == true;
 
     }
 
     /**
      * Задаёт конфигурацию
      *
-     * @param array $config
+     * @param array $configuration
      * @return array
      */
-    public function config (array $config) : array {
+    public function configure (array $configuration = []) : array {
 
-        return $this->config = array_merge($this->config, $config);
+        return $this->configuration = array_merge($this->configuration, $configuration);
 
     }
 
