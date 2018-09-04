@@ -1,14 +1,15 @@
-<?php
-namespace arhone\cache;
+<?php declare(strict_types=1);
+
+namespace arhone\caching;
 
 /**
- * Работа с кешем
+ * Работа с кэшем
  *
- * Class CacheMemory
- * @package arhone\cache
+ * Class CacheRedisAdapter
+ * @package arhone\caching
  * @author Алексей Арх <info@arh.one>
  */
-class CacheMemory implements CacheInterface {
+class CacheRedisAdapter implements CacheInterface {
 
     /**
      * Настройки класса
@@ -16,19 +17,22 @@ class CacheMemory implements CacheInterface {
      * @var array
      */
     protected $config = [
-        'status' => true
+        'status' => true,
     ];
 
-    protected $Memcached;
+    protected $Redis;
 
     /**
-     * CacheMem constructor.
-     * @param \Memcached $Memcached
+     * Cache constructor.
+     *
+     * CacheRedis constructor.
+     * @param \Redis $Redis
+     * @param array $config
      */
-    public function __construct (\Memcached $Memcached) {
+    public function __construct (\Redis $Redis, array $config = []) {
 
-        $this->Memcached = $Memcached;
-        $Memcached->setCompressThreshold(0, 1);
+        $this->Redis = $Redis;
+        $this->config($config);
 
     }
 
@@ -52,7 +56,7 @@ class CacheMemory implements CacheInterface {
      * Возвращает значение кэша
      *
      * @param string $key
-     * @return mixed
+     * @return bool
      */
     public function get (string $key) {
 
@@ -60,7 +64,7 @@ class CacheMemory implements CacheInterface {
             return false;
         }
 
-        $data = unserialize($this->Memcached->get($key));
+        $data = unserialize($this->Redis->get($key));
 
         if (!empty($data['remove']) && $data['remove'] < time()) {
 
@@ -86,42 +90,54 @@ class CacheMemory implements CacheInterface {
             return false;
         }
 
-        return $this->Memcached->set($key, gzencode($data, 9), MEMCACHE_COMPRESSED, $interval) == true;
+        $data = [
+            'created' => time(),
+            'remove'  => $interval ? time() + $interval : null,
+            'data'    => $data
+        ];
+        return $this->Redis->set($key, serialize($data)) == true;
 
     }
 
     /**
      * Удаление кеша
      *
-     * @param string|null $key
+     * @param string $key
      * @return bool
      */
-    public function delete (string $key = null) : bool {
+    public function delete (string $key) : bool {
 
-        return $this->Memcached->set($key, false);
+        $result = false;
+        $this->Redis->delete($key);
+        foreach ($this->Redis->keys($key . '.*') as $key) {
+            $this->Redis->delete($key);
+            $result = true;
+        }
+
+        return $result;
 
     }
 
     /**
-     * Удаление кеша
+     * Проверяет существование ключа
      *
-     * @param string|null $key
+     * @param string $key
      * @return bool
      */
-    public function has (string $key = null) : bool {
+    public function has (string $key) : bool {
 
-        return !empty($this->Memcached->get($key));
+        return $this->Redis->exists($key);
 
     }
 
     /**
-     * Очистка кеша
+     * Очищает кеш
      *
      * @return bool
      */
     public function clear () : bool {
 
-        return $this->Memcached->flush();
+        return $this->Redis->flushAll() == true;
 
     }
 

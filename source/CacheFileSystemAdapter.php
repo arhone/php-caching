@@ -1,14 +1,15 @@
 <?php declare(strict_types = 1);
-namespace arhone\cache;
+
+namespace arhone\caching;
 
 /**
- * Работа с кешем
+ * Работа с кэшем
  *
- * Class CacheFile
- * @package arhone\cache
+ * Class CacheFileSystemAdapter
+ * @package arhone\caching
  * @author Алексей Арх <info@arh.one>
  */
-class CacheFile implements CacheInterface {
+class CacheFileSystemAdapter implements CacheInterface {
 
     /**
      * Настройки класса

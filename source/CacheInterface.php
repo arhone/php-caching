@@ -1,11 +1,12 @@
 <?php declare(strict_types = 1);
-namespace arhone\cache;
+
+namespace arhone\caching;
 
 /**
  * Cache
  *
  * Interface CacheInterface
- * @package arhone\cache
+ * @package arhone\caching
  * @author Алексей Арх <info@arh.one>
  */
 interface CacheInterface {
