@@ -4,37 +4,37 @@
 
 # Установка
 
-```composer require arhone/cache```
+```composer require arhone/caching```
 
 Кэш на файлах
 ```php
 <?php
-use arhone\cache\CacheFile;
+use arhone\caching\CacheFileSystemAdapter;
 include 'vendor/autoload.php';
 
-$Cache = new CacheFile();
+$Cache = new CacheFileSystemAdapter();
 ```
 
 Кэш в Redis
 ```php
 <?php
-use arhone\cache\CacheRedis;
+use arhone\caching\CacheRedisAdapter;
 include 'vendor/autoload.php';
 
 $Redis = new \Redis();
 $Redis->connect('localhost');
-$Cache = new CacheRedis($Redis);
+$Cache = new CacheRedisAdapter($Redis);
 ```
 
 Кэш в Memcached
 ```php
 <?php
-use arhone\cache\CacheRedis;
+use arhone\caching\CacheMemcachedAdapter;
 include 'vendor/autoload.php';
 
-$Memcache = new \Memcache();
-$Memcache->connect('localhost');
-$Cache = new CacheRedis($Memcache);
+$Memcached = new \Memcached();
+$Memcached->connect('localhost');
+$Cache = new CacheMemcachedAdapter($Memcached);
 ```
 
 # Пример
@@ -46,10 +46,10 @@ $Cache->set(string $key, $data, int $interval = null); // Сохраняет к�
 
 ```php
 <?php
-use arhone\cache\CacheFile;
+use arhone\caching\CacheFileSystemAdapter;
 include 'vendor/autoload.php';
 
-$Cache = new CacheFile();
+$Cache = new CacheFileSystemAdapter();
 
 if (!$data = $Cache->get('key')) {
     
