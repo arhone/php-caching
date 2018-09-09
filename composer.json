@@ -18,9 +18,6 @@
     },
     "minimum-stability": "dev",
     "require": {
-        "ext-zlib": "*",
-        "ext-memcached": "*",
-        "ext-redis": "*",
         "php": ">=7.1"
     }
 }
