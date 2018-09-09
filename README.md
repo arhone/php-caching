@@ -1,4 +1,4 @@
-# Cache
+# Cacher
 
 Кэширование.
 
@@ -9,52 +9,52 @@
 Кэш на файлах
 ```php
 <?php
-use arhone\caching\CacheFileSystemAdapter;
+use arhone\caching\CacherFileSystemAdapter;
 include 'vendor/autoload.php';
 
-$Cache = new CacheFileSystemAdapter();
+$Cacher = new CacherFileSystemAdapter();
 ```
 
 Кэш в Redis
 ```php
 <?php
-use arhone\caching\CacheRedisAdapter;
+use arhone\caching\CacherRedisAdapter;
 include 'vendor/autoload.php';
 
 $Redis = new \Redis();
 $Redis->connect('localhost');
-$Cache = new CacheRedisAdapter($Redis);
+$Cacher = new CacherRedisAdapter($Redis);
 ```
 
 Кэш в Memcached
 ```php
 <?php
-use arhone\caching\CacheMemcachedAdapter;
+use arhone\caching\CacherMemcachedAdapter;
 include 'vendor/autoload.php';
 
 $Memcached = new \Memcached();
 $Memcached->connect('localhost');
-$Cache = new CacheMemcachedAdapter($Memcached);
+$Cacher = new CacherMemcachedAdapter($Memcached);
 ```
 
 # Пример
 
 ```
-$Cache->get(string $key); // Возвращает кэш по ключу
-$Cache->set(string $key, $data, int $interval = null); // Сохраняет кэш по ключу. Можно задать время жизни в секундах.
+$Cacher->get(string $key); // Возвращает кэш по ключу
+$Cacher->set(string $key, $data, int $interval = null); // Сохраняет кэш по ключу. Можно задать время жизни в секундах.
 ```
 
 ```php
 <?php
-use arhone\caching\CacheFileSystemAdapter;
+use arhone\caching\CacherFileSystemAdapter;
 include 'vendor/autoload.php';
 
-$Cache = new CacheFileSystemAdapter();
+$Cacher = new CacherFileSystemAdapter();
 
-if (!$data = $Cache->get('key')) {
+if (!$data = $Cacher->get('key')) {
     
     $data = 'Привет'; // Какой то сложный код, получающий данные
-    $Cache->set('key', $data);
+    $Cacher->set('key', $data);
     
 }
 
@@ -62,7 +62,7 @@ echo $data;
 ```
 
 ```
-$Cache->delete(string $key); // Удаляет кэш по ключу
-$Cache->clear(); // Очищает весь кэш.
-$Cache->has(string $key); // Проверяет существование кэша
+$Cacher->delete(string $key); // Удаляет кэш по ключу
+$Cacher->clear(); // Очищает весь кэш.
+$Cacher->has(string $key); // Проверяет существование кэша
 ```
