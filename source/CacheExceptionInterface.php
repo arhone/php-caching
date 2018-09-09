@@ -3,8 +3,8 @@
 namespace arhone\caching;
 
 /**
- * Interface CacheException
+ * Interface CacheExceptionInterface
  * @package arhone\caching
  * @author Алексей Арх <info@arh.one>
  */
-interface CacheException {}
+interface CacheExceptionInterface {}
