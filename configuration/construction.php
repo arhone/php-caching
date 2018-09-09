@@ -1,8 +1,8 @@
 <?php
 
 return [
-    'Cache' => [
-        'class' => 'arhone\caching\CacheFileSystemAdapter',
+    'Cacher' => [
+        'class' => 'arhone\caching\CacherFileSystemAdapter',
         'construct' => [
             ['array' => [
                 'state'     => false,

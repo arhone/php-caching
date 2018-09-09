@@ -5,11 +5,11 @@ namespace arhone\caching;
 /**
  * Cache
  *
- * Interface CacheInterface
+ * Interface CacherInterface
  * @package arhone\caching
  * @author Алексей Арх <info@arh.one>
  */
-interface CacheInterface {
+interface CacherInterface {
 
     /**
      * Записывает кеш в файл

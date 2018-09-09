@@ -4,11 +4,11 @@ namespace arhone\caching;
 /**
  * Работа с кэшем
  *
- * Class CacheMemcachedAdapter
+ * Class CacherMemcachedAdapter
  * @package arhone\caching
  * @author Алексей Арх <info@arh.one>
  */
-class CacheMemcachedAdapter implements CacheInterface {
+class CacherMemcachedAdapter implements CacherInterface {
 
     /**
      * Настройки класса
@@ -25,7 +25,7 @@ class CacheMemcachedAdapter implements CacheInterface {
     protected $Memcached;
 
     /**
-     * CacheMemcachedAdapter constructor.
+     * CacherMemcachedAdapter constructor.
      * @param \Memcached $Memcached
      * @param array $configuration
      */

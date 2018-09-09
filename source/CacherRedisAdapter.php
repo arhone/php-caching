@@ -5,11 +5,11 @@ namespace arhone\caching;
 /**
  * Работа с кэшем
  *
- * Class CacheRedisAdapter
+ * Class CacherRedisAdapter
  * @package arhone\caching
  * @author Алексей Арх <info@arh.one>
  */
-class CacheRedisAdapter implements CacheInterface {
+class CacherRedisAdapter implements CacherInterface {
 
     /**
      * Настройки класса
@@ -26,14 +26,13 @@ class CacheRedisAdapter implements CacheInterface {
     protected $Redis;
 
     /**
-     * CacheRedisAdapter constructor.
+     * CacherRedisAdapter constructor.
      * @param \Redis $Redis
      * @param array $configuration
      */
     public function __construct (\Redis $Redis, array $configuration = []) {
 
         $this->Redis = $Redis;
-
         $this->configure($configuration);
 
     }

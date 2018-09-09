@@ -5,11 +5,11 @@ namespace arhone\caching;
 /**
  * Работа с кэшем
  *
- * Class CacheFileSystemAdapter
+ * Class CacherFileSystemAdapter
  * @package arhone\caching
  * @author Алексей Арх <info@arh.one>
  */
-class CacheFileSystemAdapter implements CacheInterface {
+class CacherFileSystemAdapter implements CacherInterface {
 
     /**
      * Настройки класса
@@ -22,12 +22,12 @@ class CacheFileSystemAdapter implements CacheInterface {
     ];
 
     /**
-     * CacheFileSystemAdapter constructor.
+     * CacherFileSystemAdapter constructor.
      * @param array $configuration
      */
     public function __construct (array $configuration = []) {
 
-        
+        $this->configure($configuration);
 
     }
 
