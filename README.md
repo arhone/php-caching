@@ -2,6 +2,10 @@
 
 Кэширование.
 
+![](https://img.shields.io/github/stars/arhone/caching.svg?style=popout-square)
+![](https://img.shields.io/github/forks/arhone/caching.svg?style=popout-square)
+![](https://img.shields.io/github/issues/arhone/caching.svg?style=popout-square)
+
 # Установка
 
 ```composer require arhone/caching```
