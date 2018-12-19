@@ -12,7 +12,7 @@
 use arhone\caching\CacherFileSystemAdapter;
 include 'vendor/autoload.php';
 
-$Cacher = new CacherFileSystemAdapter();
+$cacher = new CacherFileSystemAdapter();
 ```
 
 Кэш в Redis
@@ -21,9 +21,9 @@ $Cacher = new CacherFileSystemAdapter();
 use arhone\caching\CacherRedisAdapter;
 include 'vendor/autoload.php';
 
-$Redis = new \Redis();
-$Redis->connect('localhost');
-$Cacher = new CacherRedisAdapter($Redis);
+$redis = new \Redis();
+$redis->connect('localhost');
+$cacher = new CacherRedisAdapter($redis);
 ```
 
 Кэш в Memcached
@@ -32,16 +32,16 @@ $Cacher = new CacherRedisAdapter($Redis);
 use arhone\caching\CacherMemcachedAdapter;
 include 'vendor/autoload.php';
 
-$Memcached = new \Memcached();
-$Memcached->connect('localhost');
-$Cacher = new CacherMemcachedAdapter($Memcached);
+$memcached = new \Memcached();
+$memcached->connect('localhost');
+$cacher = new CacherMemcachedAdapter($memcached);
 ```
 
 # Пример
 
 ```
-$Cacher->get(string $key); // Возвращает кэш по ключу
-$Cacher->set(string $key, $data, int $interval = null); // Сохраняет кэш по ключу. Можно задать время жизни в секундах.
+$cacher->get(string $key); // Возвращает кэш по ключу
+$cacher->set(string $key, $data, int $interval = null); // Сохраняет кэш по ключу. Можно задать время жизни в секундах.
 ```
 
 ```php
@@ -49,12 +49,12 @@ $Cacher->set(string $key, $data, int $interval = null); // Сохраняет к
 use arhone\caching\CacherFileSystemAdapter;
 include 'vendor/autoload.php';
 
-$Cacher = new CacherFileSystemAdapter();
+$cacher = new CacherFileSystemAdapter();
 
-if (!$data = $Cacher->get('key')) {
+if (!$data = $cacher->get('key')) {
     
     $data = 'Привет'; // Какой то сложный код, получающий данные
-    $Cacher->set('key', $data);
+    $cacher->set('key', $data);
     
 }
 
@@ -62,7 +62,7 @@ echo $data;
 ```
 
 ```
-$Cacher->delete(string $key); // Удаляет кэш по ключу
-$Cacher->clear(); // Очищает весь кэш.
-$Cacher->has(string $key); // Проверяет существование кэша
+$cacher->delete(string $key); // Удаляет кэш по ключу
+$cacher->clear(); // Очищает весь кэш.
+$cacher->has(string $key); // Проверяет существование кэша
 ```

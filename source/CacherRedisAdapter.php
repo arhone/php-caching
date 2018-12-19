@@ -27,12 +27,12 @@ class CacherRedisAdapter implements CacherInterface {
 
     /**
      * CacherRedisAdapter constructor.
-     * @param \Redis $Redis
+     * @param \Redis $redis
      * @param array $configuration
      */
-    public function __construct (\Redis $Redis, array $configuration = []) {
+    public function __construct (\Redis $redis, array $configuration = []) {
 
-        $this->Redis = $Redis;
+        $this->Redis = $redis;
         $this->configure($configuration);
 
     }

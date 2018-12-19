@@ -26,13 +26,13 @@ class CacherMemcachedAdapter implements CacherInterface {
 
     /**
      * CacherMemcachedAdapter constructor.
-     * @param \Memcached $Memcached
+     * @param \Memcached $memcached
      * @param array $configuration
      */
-    public function __construct (\Memcached $Memcached, array $configuration = []) {
+    public function __construct (\Memcached $memcached, array $configuration = []) {
 
-        $this->Memcached = $Memcached;
-        $Memcached->setCompressThreshold(0, 1);
+        $this->Memcached = $memcached;
+        $this->Memcached->setCompressThreshold(0, 1);
 
         $this->configure($configuration);
 
