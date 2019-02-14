@@ -13,7 +13,7 @@
 Кэш на файлах
 ```php
 <?php
-use arhone\caching\CacherFileSystemAdapter;
+use arhone\caching\cacher\CacherFileSystemAdapter;
 include 'vendor/autoload.php';
 
 $cacher = new CacherFileSystemAdapter();
@@ -22,7 +22,7 @@ $cacher = new CacherFileSystemAdapter();
 Кэш в Redis
 ```php
 <?php
-use arhone\caching\CacherRedisAdapter;
+use arhone\caching\cacher\CacherRedisAdapter;
 include 'vendor/autoload.php';
 
 $redis = new \Redis();
@@ -33,7 +33,7 @@ $cacher = new CacherRedisAdapter($redis);
 Кэш в Memcached
 ```php
 <?php
-use arhone\caching\CacherMemcachedAdapter;
+use arhone\caching\cacher\CacherMemcachedAdapter;
 include 'vendor/autoload.php';
 
 $memcached = new \Memcached();
@@ -50,7 +50,7 @@ $cacher->set(string $key, $data, int $interval = null); // Сохраняет к
 
 ```php
 <?php
-use arhone\caching\CacherFileSystemAdapter;
+use arhone\caching\cacher\CacherFileSystemAdapter;
 include 'vendor/autoload.php';
 
 $cacher = new CacherFileSystemAdapter();

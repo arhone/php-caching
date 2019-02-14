@@ -2,7 +2,7 @@
 
 return [
     'Cacher' => [
-        'class' => 'arhone\caching\CacherFileSystemAdapter',
+        'class' => 'arhone\caching\cacher\CacherFileSystemAdapter',
         'construct' => [
             [
                 'array' => [
